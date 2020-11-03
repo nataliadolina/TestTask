@@ -58,7 +58,6 @@ namespace Character
             Instance = this;
             playerTransform = GetComponent<Transform>();
             characterData = GetComponent<CharacterData>();
-            AttackState._characterControl = this;
             characterData.Init();
         }
         
