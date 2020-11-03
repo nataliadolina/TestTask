@@ -7,47 +7,28 @@ using UnityEngine.AI;
 public class EnemyPursuingState : StateBase
 {
     [SerializeField] private float speed = 6.0f;
-    [SerializeField] public static float detectionRadius = 10.0f;
 
-    [SerializeField] StateBase previousState;
-
-    public enum Aim
-    {
-        Player,
-        Enemy
-    }
-
-    private Transform aim;
     private NavMeshAgent agent;
 
-    private void Start()
+    private Transform aim;
+    
+    protected override void Init()
     {
         agent = GetComponentInParent<NavMeshAgent>();
+        Debug.Log(agent);
         agent.speed = speed;
     }
 
     public override IEnumerator Action()
     {
+        Debug.Log(agent);
         Vector3 aimPos = CharacterControl.Instance.playerTransform.position;
         float distToAim = Vector3.SqrMagnitude(aimPos - transform.position);
-        if (distToAim <= detectionRadius * detectionRadius)
+        while (true)
         {
-            if (distToAim > EnemyAttack.attackRadius * EnemyAttack.attackRadius)
-            {
-                Debug.Log(agent);
-                agent.SetDestination(aimPos);
-                yield return new WaitForFixedUpdate();
-            }
-            else
-            {
-                agent.ResetPath();
-                enemy.SwitchToTheNextState(nextState);
-            }
+            agent.SetDestination(aimPos);
+            yield return new WaitForFixedUpdate();
         }
-        else
-        {
-            agent.ResetPath();
-            enemy.SwitchToTheNextState(previousState);
-        }
+
     }
 }

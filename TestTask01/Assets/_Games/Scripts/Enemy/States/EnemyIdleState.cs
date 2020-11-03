@@ -4,22 +4,19 @@ using Character;
 
 public class EnemyIdleState : StateBase
 {
-    private Transform aim;
-
     private void Start()
-    {
-        aim = CharacterControl.Instance.playerTransform;
-        StartCoroutine(Action());
+    { 
+        
     }
     
     public override IEnumerator Action()
     {
+        Transform aim = CharacterControl.Instance.playerTransform;
         float distToPlayer = Vector3.SqrMagnitude(aim.position - transform.position);
-        while (distToPlayer > Mathf.Pow(EnemyPursuingState.detectionRadius, 2))
+        while (true)
         {
             yield return new WaitForFixedUpdate();
         }
-        enemy.SwitchToTheNextState(nextState);
     }
     
 }
