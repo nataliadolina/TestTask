@@ -39,6 +39,7 @@ public abstract class AttackState : State
     public override void Run()
     {
         agent.isStopped = true;
+        agent.ResetPath();
 
         if (unitData.aim != null)
         {
@@ -47,6 +48,13 @@ public abstract class AttackState : State
             {
                 animator.SetTrigger("Atack");
                 unitData.aim.HitPoint = harm;
+
+                if (unitData.aim.HitPoint <= 0)
+                {
+
+                    statesExecuter.CurrentState = nextState;
+                    return;
+                }
                 currentTime = 0.0f;
             }
         }

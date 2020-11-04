@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   harm: 2
-  waitTime: 0.5
+  waitTime: 3
   nextState: {fileID: 0}
