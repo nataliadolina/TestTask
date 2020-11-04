@@ -7,56 +7,71 @@ public class PlayerPersecutionState : PersecutionStateBase
 {
     [SerializeField] private State previousState;
 
-    private StatesExecuter stateExecuter;
-    private List<Transform> enemies;
+    private UnitDataa unitData;
+
+    public UnitDataa UnitData
+    {
+        get => unitData;
+    }
+
+
+    public static List<UnitDataa> enemies;
 
     private void Awake()
     {
-        enemies = new List<Transform>();
+        unitData = GetComponentInParent<UnitDataa>();
+        enemies = new List<UnitDataa>();
         foreach (var enemy in FindObjectsOfType<EnemyPursuingState>())
         {
-            enemies.Add(enemy.transform);
+            enemies.Add(enemy.GetComponent<UnitDataa>());
         }
     }
 
     protected override void SetDestination()
     {
-        destination = FindClosestEnemy();
+        
     }
 
     public override void Run()
     {
-        destination = FindClosestEnemy();
-        if (destination != null)
+        
+        UnitDataa closestEnemy = FindClosestEnemy();
+        if (closestEnemy != null)
         {
+            destination = closestEnemy.transform;
             agent.isStopped = false;
             agent.SetDestination(destination.position);
+            unitData.aim = closestEnemy;
         }
 
         else
         {
             stateExecuter.CurrentState = previousState;
+            unitData.aim = null;
         }
     }
 
-    private Transform FindClosestEnemy()
+    private UnitDataa FindClosestEnemy()
     {
+        UnitDataa[] enemies = FindObjectsOfType<UnitDataa>();
+
         float minDistance = 400f;
-        Transform transform = null;
-        foreach (var enemyTransform in enemies)
+        UnitDataa closestEnemy = null;
+        foreach (var enemy in enemies)
         {
-            if (enemyTransform == null)
+            if (enemy.CompareTag("Player"))
             {
                 continue;
             }
+            Transform enemyTransform = enemy.transform;
 
             float distance = Vector3.Magnitude(enemyTransform.position);
             if (distance < minDistance)
             {
                 minDistance = distance;
-                transform = enemyTransform;
+                closestEnemy = enemy;
             }
         }
-        return transform;
+        return closestEnemy;
     }
 }

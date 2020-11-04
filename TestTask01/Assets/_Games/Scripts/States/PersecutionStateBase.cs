@@ -7,11 +7,14 @@ public abstract class PersecutionStateBase : State
 {
     [SerializeField] protected float speed;
 
+    protected StatesExecuter stateExecuter;
     protected Transform destination;
     protected NavMeshAgent agent;
 
     protected override void Start()
     {
+        stateExecuter = GetComponentInParent<StatesExecuter>();
+
         agent = GetComponentInParent<NavMeshAgent>();
         agent.speed = speed;
 

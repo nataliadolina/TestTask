@@ -31,6 +31,7 @@ public class EnemySpawner : MonoBehaviour
         {
             GameObject enemy = Instantiate(_enemyPrefab, transform);
             enemy.transform.position = NextPosition();
+            //PlayerPersecutionState.enemies.Add(enemy.GetComponent<UnitDataa>());
         }
 
         spawnBlock = false;
