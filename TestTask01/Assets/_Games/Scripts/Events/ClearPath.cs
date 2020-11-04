@@ -14,6 +14,7 @@ public class ClearPath : EventBase
 
     public override void Execute()
     {
+        agent.ResetPath();
         agent.isStopped = true;
     }
 }

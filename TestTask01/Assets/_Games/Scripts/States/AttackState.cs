@@ -22,7 +22,6 @@ public class AttackState : State
         currentTime += Time.deltaTime;
         if (currentTime >= waitTime)
         {
-            Debug.Log("attack");
             animator.SetTrigger("Atack");
             currentTime = 0.0f;
         }
